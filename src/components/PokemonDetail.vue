@@ -1,42 +1,46 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-const route = useRoute();
-const pokemon = ref({});
-const isLoading = ref(false);
-const audioUrl = ref('');
+const route = useRoute()
+const router = useRouter()
+const pokemon = ref({})
+const isLoading = ref(false)
+const audioUrl = ref('')
 
 const playAudio = () => {
   if (audioUrl.value) {
-    const audio = new Audio(audioUrl.value);
-    audio.play();
+    const audio = new Audio(audioUrl.value)
+    audio.play()
   }
-};
+}
 
 onMounted(() => {
-  getPokemon(route.params.id);
-});
+  getPokemon(route.params.id)
+})
 
 const getPokemon = async (id) => {
-  const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+  const url = `https://pokeapi.co/api/v2/pokemon/${id}`
   try {
-    isLoading.value = true;
-    const response = await fetch(url);
-    const data = await response.json();
-    pokemon.value = data;
-    audioUrl.value = pokemon.value.cries?.latest;
-    isLoading.value = false;
+    isLoading.value = true
+    const response = await fetch(url)
+    const data = await response.json()
+    pokemon.value = data
+    audioUrl.value = pokemon.value.cries?.latest
+    isLoading.value = false
 
     if (data.cries && data.cries.latest) {
-      audioUrl.value = data.cries.latest;
-      console.log(audioUrl.value);
-      //   playAudio(audioUrl.value);
+      audioUrl.value = data.cries.latest
+      console.log(audioUrl.value)
     }
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
+
+const goBack = () => {
+  router.go(-1)
+}
 </script>
 
 <template>
@@ -45,6 +49,9 @@ const getPokemon = async (id) => {
       <span class="visually-hidden">Loading...</span>
     </div>
     <div v-else class="card mx-auto" style="width: 18rem">
+      <button @click="goBack" class="btn btn-outline-secondary m-3">
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
       <img
         :src="pokemon.sprites?.versions['generation-v']['black-white'].animated.front_default"
         :alt="pokemon.name"
