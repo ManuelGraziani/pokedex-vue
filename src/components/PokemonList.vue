@@ -46,8 +46,7 @@ const getPokemon = async () => {
 }
 
 .card-img-top {
-  width: 150px;
-  height: 100px;
+  width: 110px;
   object-fit: cover;
   margin: auto;
 }
