@@ -1,5 +1,9 @@
-<script setup></script>
+<script setup>
+import PokemonDetail from '@/components/PokemonDetail.vue'
+</script>
 
-<template></template>
+<template>
+  <PokemonDetail />
+</template>
 
 <style scoped></style>
