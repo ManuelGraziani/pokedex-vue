@@ -33,7 +33,7 @@ const getPokemon = async () => {
 const pokemonDetail = (id) => {
   router.push(`/pokemon/${id}`)
   if (searchedPokemon.value) {
-    router.push(`/pokemon/${searchedPokemon.value}`)
+    router.push(`/pokemon/${searchedPokemon.value.trim().toLowerCase()}`)
   }
 }
 
