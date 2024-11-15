@@ -100,9 +100,10 @@ form {
 }
 
 .search-box {
-  width: 30%;
+  width: 90%; /* Utilizza il 90% della larghezza dello schermo */
+  max-width: 500px; /* Imposta un massimo per schermi più grandi */
   height: 50px;
-  font-size: 1.5em;
+  font-size: 1em; /* Riduce leggermente il font sui dispositivi più piccoli */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
