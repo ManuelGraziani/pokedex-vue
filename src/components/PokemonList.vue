@@ -7,6 +7,7 @@ const el = ref(null)
 const pokeList = ref([])
 const url = ref('https://pokeapi.co/api/v2/pokemon')
 const isLoading = ref(false)
+const searchedPokemon = ref('')
 
 onMounted(async () => {
   await getPokemon()
@@ -31,6 +32,9 @@ const getPokemon = async () => {
 
 const pokemonDetail = (id) => {
   router.push(`/pokemon/${id}`)
+  if (searchedPokemon.value) {
+    router.push(`/pokemon/${searchedPokemon.value}`)
+  }
 }
 
 useInfiniteScroll(
@@ -44,6 +48,16 @@ useInfiniteScroll(
 
 <template>
   <div class="container my-4">
+    <div class="search-container">
+      <form @submit.prevent="pokemonDetail">
+        <input
+          class="search-box"
+          type="text"
+          placeholder="Search name or number"
+          v-model="searchedPokemon"
+        />
+      </form>
+    </div>
     <div class="row g-4">
       <div v-for="pokemon in pokeList" :key="pokemon.id" class="col-6 col-md-4 col-lg-3">
         <div class="card text-center" @click="pokemonDetail(pokemon.id)">
@@ -61,9 +75,6 @@ useInfiniteScroll(
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
-    <!-- <div class="search-container text-center">
-      <input class="search-box" type="text" placeholder="Search..." v-model="searchTerm" />
-    </div> -->
   </div>
 </template>
 
@@ -78,5 +89,24 @@ useInfiniteScroll(
   width: 120px;
   object-fit: cover;
   margin: auto;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-box {
+  width: 30%;
+  height: 50px;
+  font-size: 1.5em;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 40px 0;
+  text-align: center;
 }
 </style>

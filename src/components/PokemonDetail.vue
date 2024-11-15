@@ -7,6 +7,7 @@ const router = useRouter()
 const pokemon = ref({})
 const isLoading = ref(false)
 const audioUrl = ref('')
+const notFound = ref(false)
 
 const playAudio = () => {
   if (audioUrl.value) {
@@ -35,6 +36,8 @@ const getPokemon = async (id) => {
     }
   } catch (error) {
     console.error(error)
+    isLoading.value = false
+    notFound.value = true
   }
 }
 
@@ -48,7 +51,7 @@ const goBack = () => {
     <div v-if="isLoading" class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-    <div v-else class="card mx-auto" style="width: 18rem">
+    <div v-else-if="!notFound" class="card mx-auto" style="width: 18rem">
       <button @click="goBack" class="btn btn-outline-secondary m-3">
         <i class="bi bi-arrow-left"></i> Back
       </button>
@@ -84,6 +87,12 @@ const goBack = () => {
 
         <button v-if="audioUrl" @click="playAudio" class="btn btn-danger mt-3">Listen Cry</button>
       </div>
+    </div>
+    <div v-else class="card mx-auto" style="width: 18rem">
+      <button @click="goBack" class="btn btn-outline-secondary m-3">
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
+      <h3 class="text-center my-5">Pokemon was not found</h3>
     </div>
   </div>
 </template>
